@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"tg-welcome-bot/internal/db"
 	"tg-welcome-bot/internal/handler"
 
 	tb "gopkg.in/telebot.v3"
@@ -15,6 +16,8 @@ func main() {
 		Token:  os.Getenv("BOT_TOKEN"),
 		Poller: &tb.LongPoller{Timeout: 10 * time.Second},
 	}
+
+	db.InitDB()
 
 	bot, err := tb.NewBot(pref)
 	if err != nil {
