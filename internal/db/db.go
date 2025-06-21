@@ -9,22 +9,6 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type Order struct {
-	ID        int
-	ItemID    int
-	UserID    int64
-	CreatedAt time.Time
-}
-
-func SaveOrder(itemID int, userID int64) error {
-	_, err := Pool.Exec(
-		context.Background(),
-		"INSERT INTO orders (item_id, user_id) VALUES ($1, $2)",
-		itemID, userID,
-	)
-	return err
-}
-
 var Pool *pgxpool.Pool
 
 func InitDB() {
@@ -53,4 +37,40 @@ func InitDB() {
 	if err != nil {
 		log.Fatalf("Ошибка создания таблицы: %v", err)
 	}
+}
+
+type Product struct {
+	ID     int
+	Name   string
+	Brand  string
+	Price  int
+	SizeUS string
+	SizeEU string
+}
+
+func GetProduct(ctx context.Context, id int) (*Product, error) {
+	query := `
+	SELECT id, name, brand, price, size_us, size_eu FROM products_male WHERE id = $1
+	UNION
+	SELECT id, name, brand, price, size_us, size_eu FROM products_female WHERE id = $1
+	LIMIT 1;
+	`
+
+	row := Pool.QueryRow(ctx, query, id)
+
+	var p Product
+	err := row.Scan(&p.ID, &p.Name, &p.Brand, &p.Price, &p.SizeUS, &p.SizeEU)
+	if err != nil {
+		// if errors.Is(err, pgxpool.ErrNoRows) {
+		// 	return nil, fmt.Errorf("товар не найден")
+		// }
+		return nil, err
+	}
+
+	return &p, nil
+}
+
+func SaveOrder(ctx context.Context, productID int, userID int64) error {
+	_, err := Pool.Exec(ctx, `INSERT INTO orders (item_id, user_id) VALUES ($1, $2)`, productID, userID)
+	return err
 }
