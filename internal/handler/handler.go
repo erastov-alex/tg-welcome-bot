@@ -12,6 +12,8 @@ import (
 	tb "gopkg.in/telebot.v3"
 )
 
+var BtnConfirmOrder = tb.Btn{Unique: "confirm_order"}
+
 // Структура для хранения контекста товара, чтобы использовать в callback
 type productCallback struct {
 	ProductID int
@@ -45,7 +47,7 @@ func StartHandler(c tb.Context) error {
 	}
 
 	markup := &tb.ReplyMarkup{}
-	btn := markup.Data("✅ Подтвердить заказ", "confirm_order", strconv.Itoa(product.ID))
+	btn := markup.Data("✅ Подтвердить заказ", BtnConfirmOrder.Unique, strconv.Itoa(product.ID))
 	markup.Inline(markup.Row(btn))
 
 	return c.Send(photo, &tb.SendOptions{
