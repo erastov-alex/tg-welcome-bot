@@ -51,9 +51,9 @@ type Product struct {
 
 func GetProduct(ctx context.Context, id int) (*Product, error) {
 	query := `
-	SELECT id, name, brand, price, size_us, size_eu FROM products_male WHERE id = $1
+	SELECT id, name, brand, price, size_us, size_eu FROM products_male WHERE sku_id = $1
 	UNION
-	SELECT id, name, brand, price, size_us, size_eu FROM products_female WHERE id = $1
+	SELECT id, name, brand, price, size_us, size_eu FROM products_female WHERE sku_id = $1
 	LIMIT 1;
 	`
 
