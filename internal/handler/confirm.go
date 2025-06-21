@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 
 	"tg-welcome-bot/internal/db"
@@ -27,7 +26,7 @@ func ConfirmOrderHandler(c tb.Context) error {
 		return c.Respond(&tb.CallbackResponse{Text: "Не удалось сохранить заказ."})
 	}
 
-	paymentURL := os.Getenv("PAYMENT_URL") + strconv.Itoa(productID)
+	paymentURL := "TEST_PAYMENT_LINK_FOR_PRODUCT_" + strconv.Itoa(productID)
 
 	// Уведомление в чате и отклик на кнопку
 	_, _ = c.Bot().Send(c.Sender(), fmt.Sprintf(
