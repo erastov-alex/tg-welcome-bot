@@ -37,7 +37,7 @@ func StartHandler(c tb.Context) error {
 
 	// Отображаем товар с кнопкой
 	photo := &tb.Photo{
-		File: tb.FromURL("https://placekitten.com/600/400"),
+		File: tb.FromURL("https://static.insales-cdn.com/files/1/6197/40482869/original/%D0%B0%D1%82%D0%BB%D0%B5%D1%82%D0%B8%D0%B7%D0%BC%D0%BE_600%D1%85600_78a0fd89473c72c9c5401dd95a8e9acd.png"),
 		Caption: fmt.Sprintf(
 			"🛍️ <b>%s</b>\n👟 <i>%s</i>\n\n💵 Цена: <b>%d ₽</b>\n📏 Размер: US %s / EU %s\n\nНажмите кнопку ниже, чтобы подтвердить заказ.",
 			product.Name, product.Brand, product.Price, product.SizeUS, product.SizeEU,
