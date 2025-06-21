@@ -31,6 +31,8 @@ func main() {
 
 	bot.Handle("/start", handler.StartHandler)
 
+	bot.Handle(&tb.Callback{Unique: "confirm_order"}, handler.ConfirmOrderHandler)
+
 	log.Println("Бот запущен...")
 	bot.Start()
 }
