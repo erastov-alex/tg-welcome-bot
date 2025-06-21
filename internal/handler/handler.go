@@ -3,7 +3,6 @@ package handler
 import (
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"strings"
 
@@ -31,11 +30,11 @@ func StartHandler(c tb.Context) error {
 	}
 
 	// URL оплаты
-	paymentURL := os.Getenv("PAYMENT_URL") + strconv.Itoa(itemID)
+	paymentURL := "TEST_PAYMENT_LINK"
 
 	// Картинка (можно заменить на любую: локальную, URL или []byte)
 	photo := &tb.Photo{
-		File:    tb.FromURL("https://placekitten.com/600/400"), // Замените на свою картинку товара
+		File:    tb.FromURL("https://static.insales-cdn.com/files/1/6197/40482869/original/%D0%B0%D1%82%D0%BB%D0%B5%D1%82%D0%B8%D0%B7%D0%BC%D0%BE_600%D1%85600_78a0fd89473c72c9c5401dd95a8e9acd.png"), // Замените на свою картинку товара
 		Caption: fmt.Sprintf("🎉 Спасибо за выбор товара #%d!\n\n🛒 Переходите по ссылке, чтобы оплатить заказ:\n%s", itemID, paymentURL),
 	}
 
