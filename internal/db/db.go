@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -61,9 +62,9 @@ func GetProduct(ctx context.Context, id int) (*Product, error) {
 	var p Product
 	err := row.Scan(&p.ID, &p.Name, &p.Brand, &p.Price, &p.SizeUS, &p.SizeEU)
 	if err != nil {
-		// if errors.Is(err, pgxpool.ErrNoRows) {
-		// 	return nil, fmt.Errorf("товар не найден")
-		// }
+		if err.Error() == "no rows in result set" {
+			return nil, fmt.Errorf("товар не найден")
+		}
 		return nil, err
 	}
 
